@@ -1,9 +1,11 @@
 package com.medisite.medicos.DTO;
 
 import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
 
 import java.sql.Date;
 
+@AllArgsConstructor
 public class MedicoDTO {
     private long idMedico;
 
