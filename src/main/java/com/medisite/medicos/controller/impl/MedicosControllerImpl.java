@@ -71,4 +71,15 @@ public class MedicosControllerImpl implements MedicosController {
         }
         return ResponseEntity.status(403).body("not authorized");
     }
+
+    @Override
+    public ResponseEntity<?> getAllEspecialidades(HttpServletRequest request){
+        String token = jwtService.getBearerToken(request);
+        if(jwtService.isMedico(token)
+                || jwtService.isPaciente(token)
+                || jwtService.isAdmin(token)){
+            return ResponseEntity.ok(medicoService.getAllMedicos());
+        }
+        return ResponseEntity.status(403).body("not authorized");
+    }
 }
