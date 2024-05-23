@@ -22,9 +22,9 @@ public interface MedicoService {
 
     public List<EspecialidadEntity> getEspecialidades();
 
-    public List<MedicoEntity> filterByEspecialidad(List<MedicoEntity> medicos, long id_especialidad);
+    public List<MedicoDTO> filterByEspecialidad(List<MedicoDTO> medicos, long id_especialidad);
 
-    public List<MedicoEntity> filterByCiudad(List<MedicoEntity> medicos, long id_ciudad);
+    public List<MedicoDTO> filterByCiudad(List<MedicoDTO> medicos, long id_ciudad);
 
-    public List<MedicoEntity> filterByDisponibilidad(List<MedicoEntity> medicos, LocalDateTime fecha_inicio, LocalDateTime fecha_fin);
+    public List<MedicoDTO> filterByDisponibilidad(List<MedicoDTO> medicos, LocalDateTime fecha_inicio, LocalDateTime fecha_fin);
 }

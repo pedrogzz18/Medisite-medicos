@@ -50,25 +50,25 @@ public class MedicoServiceImpl implements MedicoService {
         return (List<EspecialidadEntity>) especialidadRepository.findAll();
     }
 
-    public List<MedicoEntity> filterByEspecialidad(List<MedicoEntity> medicos, long id_especialidad){
-        List<MedicoEntity> results = new ArrayList<MedicoEntity>();
+    public List<MedicoDTO> filterByEspecialidad(List<MedicoDTO> medicos, long id_especialidad){
+        List<MedicoDTO> results = new ArrayList<MedicoDTO>();
 
-        for(MedicoEntity e : medicos){
+        for(MedicoDTO e : medicos){
             if(e.getIdEspecialidad() == id_especialidad) results.add(e);
         }
         return results;
     }
 
-    public List<MedicoEntity> filterByCiudad(List<MedicoEntity> medicos, long id_ciudad){
-        List<MedicoEntity> results = new ArrayList<MedicoEntity>();
+    public List<MedicoDTO> filterByCiudad(List<MedicoDTO> medicos, long id_ciudad){
+        List<MedicoDTO> results = new ArrayList<MedicoDTO>();
 
-        for(MedicoEntity e : medicos){
+        for(MedicoDTO e : medicos){
             if(e.getIdCiudad() == id_ciudad) results.add(e);
         }
         return results;
     }
 
-    public List<MedicoEntity> filterByDisponibilidad(List<MedicoEntity> medicos, LocalDateTime fecha_inicio, LocalDateTime fecha_fin){
+    public List<MedicoDTO> filterByDisponibilidad(List<MedicoDTO> medicos, LocalDateTime fecha_inicio, LocalDateTime fecha_fin){
         return null;
     }
 
