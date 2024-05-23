@@ -25,7 +25,7 @@ public interface MedicosController {
     @GetMapping("/get-medico/{id}")
     public ResponseEntity<?> getMedicoById(HttpServletRequest request, @PathVariable long id_medico);
 
-    @GetMapping("/get-all")
+    @GetMapping("/get-medicos")
     public ResponseEntity<?> getAllMedicos(HttpServletRequest request);
 
     @GetMapping("/get-especialidades")

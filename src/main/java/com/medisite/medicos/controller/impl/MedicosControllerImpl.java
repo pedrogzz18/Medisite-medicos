@@ -78,7 +78,7 @@ public class MedicosControllerImpl implements MedicosController {
         if(jwtService.isMedico(token)
                 || jwtService.isPaciente(token)
                 || jwtService.isAdmin(token)){
-            return ResponseEntity.ok(medicoService.getAllMedicos());
+            return ResponseEntity.ok(medicoService.getEspecialidades());
         }
         return ResponseEntity.status(403).body("not authorized");
     }
