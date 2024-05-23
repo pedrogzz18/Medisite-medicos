@@ -2,10 +2,14 @@ package com.medisite.medicos.DTO;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
 @AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class MedicoDTO {
     private long idMedico;
 

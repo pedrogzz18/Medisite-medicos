@@ -18,11 +18,9 @@ public interface MedicoService {
 
     public MedicoDTO getMedicoById(long id_medico);
 
-    public List<MedicoEntity> getAllMedicos();
+    public List<MedicoDTO> getAllMedicos();
 
     public List<EspecialidadEntity> getEspecialidades();
-
-    public List<MedicoEntity> getMedicosByEspecialidad(long id_especialidad);
 
     public List<MedicoEntity> filterByEspecialidad(List<MedicoEntity> medicos, long id_especialidad);
 

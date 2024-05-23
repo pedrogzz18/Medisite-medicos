@@ -8,11 +8,13 @@ import com.medisite.medicos.repository.entity.MedicoEntity;
 import com.medisite.medicos.service.MedicoService;
 import com.medisite.medicos.utils.MedicoEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class MedicoServiceImpl implements MedicoService {
     @Autowired
     private MedicoRepository medicoRepository;
@@ -35,8 +37,13 @@ public class MedicoServiceImpl implements MedicoService {
         return MedicoEntityMapper.MedicoEntitytoMedicoDTO(medicoRepository.findById(id_medico).get());
     }
 
-    public List<MedicoEntity> getAllMedicos(){
-        return (List<MedicoEntity>) medicoRepository.findAll();
+    public List<MedicoDTO> getAllMedicos(){
+        List<MedicoEntity> medicoEntityList = (List<MedicoEntity>) medicoRepository.findAll();
+        List<MedicoDTO> medicoDTOS = new ArrayList<MedicoDTO>();
+        for(MedicoEntity medico : medicoEntityList){
+            medicoDTOS.add(MedicoEntityMapper.MedicoEntitytoMedicoDTO(medico));
+        }
+        return medicoDTOS;
     }
 
     public List<EspecialidadEntity> getEspecialidades(){
