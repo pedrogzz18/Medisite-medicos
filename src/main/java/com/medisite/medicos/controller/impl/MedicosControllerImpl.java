@@ -64,13 +64,17 @@ public class MedicosControllerImpl implements MedicosController {
 
     @Override
     public ResponseEntity<?> getMedicos(HttpServletRequest request,
-                                           @RequestParam(value = "id_especialidad", required = false) long id_especialidad,
-                                           @RequestParam(value = "id_ciudad", required = false) long id_ciudad,
+                                           @RequestParam(value = "id_especialidad", required = false) Long id_especialidad,
+                                           @RequestParam(value = "id_ciudad", required = false) Long id_ciudad,
                                            @RequestBody(required = false) TimeRangeRequest time_range){
         String token = jwtService.getBearerToken(request);
         if(jwtService.isMedico(token)
                 || jwtService.isPaciente(token)
                 || jwtService.isAdmin(token)){
+            List<MedicoDTO> medicos = medicoService.getAllMedicos();
+            if(id_especialidad != null) medicos = medicoService.filterByEspecialidad(medicos, id_especialidad);
+            if(id_ciudad != null) medicos = medicoService.filterByCiudad(medicos, id_ciudad);
+            if(time_range != null) medicos = medicoService.filterByDisponibilidad(medicos, time_range.getTiempoInicio(), time_range.getTiempoFin());
             return ResponseEntity.ok(medicoService.getAllMedicos());
         }
         return ResponseEntity.status(403).body("not authorized");

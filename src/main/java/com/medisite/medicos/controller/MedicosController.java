@@ -28,8 +28,8 @@ public interface MedicosController {
 
     @GetMapping("/get-medicos")
     public ResponseEntity<?> getMedicos(HttpServletRequest request,
-                                           @RequestParam(value = "id_especialidad", required = false) long id_especialidad,
-                                           @RequestParam(value = "id_ciudad", required = false) long id_ciudad,
+                                           @RequestParam(value = "id_especialidad", required = false) Long id_especialidad,
+                                           @RequestParam(value = "id_ciudad", required = false) Long id_ciudad,
                                            @RequestBody(required = false) TimeRangeRequest time_range);
 
     @GetMapping("/get-especialidades")
