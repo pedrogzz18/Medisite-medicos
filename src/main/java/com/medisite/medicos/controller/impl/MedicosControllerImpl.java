@@ -3,9 +3,12 @@ package com.medisite.medicos.controller.impl;
 import com.medisite.medicos.DTO.MedicoDTO;
 import com.medisite.medicos.controller.MedicosController;
 import com.medisite.medicos.repository.entity.MedicoEntity;
+import com.medisite.medicos.service.JwtService;
 import com.medisite.medicos.service.MedicoService;
 import com.medisite.medicos.utils.MedicoEntityMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,29 +16,59 @@ import java.util.List;
 public class MedicosControllerImpl implements MedicosController {
     @Autowired
     private MedicoService medicoService;
+
+    @Autowired
+    private JwtService jwtService;
     @Override
-    public MedicoDTO createMedico(@RequestBody MedicoEntity medico){
-        return medicoService.createMedico(medico);
+    public ResponseEntity<?> createMedico(HttpServletRequest request,  @RequestBody MedicoEntity medico){
+        String token = jwtService.getBearerToken(request);
+        if(jwtService.isAdmin(token)) {
+            return ResponseEntity.ok(medicoService.createMedico(medico));
+        }
+        return ResponseEntity.status(403).body("not authorized");
     }
 
     @Override
-    public MedicoDTO updateMedico(@PathVariable long id_medico, @RequestBody MedicoEntity medico){
-        medico.setIdMedico(id_medico);
-        return medicoService.updateMedico(medico);
+    public ResponseEntity<?> updateMedico(HttpServletRequest request, @PathVariable long id_medico, @RequestBody MedicoEntity medico){
+        String token = jwtService.getBearerToken(request);
+        if((jwtService.isMedico(token) && jwtService.validateIdInToken(token, id_medico))
+            || jwtService.isAdmin(token)){
+            medico.setIdMedico(id_medico);
+            return ResponseEntity.ok(medicoService.updateMedico(medico));
+        }
+        return ResponseEntity.status(403).body("not authorized");
     }
 
     @Override
-    public void deleteMedico(@PathVariable long id_medico){
-        medicoService.deleteMedico(id_medico);
+    public ResponseEntity<?> deleteMedico(HttpServletRequest request, @PathVariable long id_medico){
+        String token = jwtService.getBearerToken(request);
+        if((jwtService.isMedico(token) && jwtService.validateIdInToken(token, id_medico))
+                || jwtService.isAdmin(token)){
+            medicoService.deleteMedico(id_medico);
+            return ResponseEntity.ok("medico eliminado");
+        }
+        return ResponseEntity.status(403).body("not authorized");
     }
 
     @Override
-    public MedicoDTO getMedicoById(@PathVariable long id_medico){
-        return medicoService.getMedicoById(id_medico);
+    public ResponseEntity<?> getMedicoById(HttpServletRequest request, @PathVariable long id_medico){
+        String token = jwtService.getBearerToken(request);
+        if((jwtService.isMedico(token) && jwtService.validateIdInToken(token, id_medico))
+                || jwtService.isPaciente(token)
+                || jwtService.isAdmin(token)){
+            return ResponseEntity.ok(medicoService.getMedicoById(id_medico));
+        }
+        return ResponseEntity.status(403).body("not authorized");
     }
 
     @Override
-    public List<MedicoDTO> getAllMedicos(){
-        return medicoService.getAllMedicos();
+    public ResponseEntity<?> getAllMedicos(HttpServletRequest request){
+        String token = jwtService.getBearerToken(request);
+        if(jwtService.isMedico(token)
+                || jwtService.isPaciente(token)
+                || jwtService.isAdmin(token)){
+            return ResponseEntity.ok(medicoService.getAllMedicos());
+        }
+        return ResponseEntity.status(403).body("not authorized");
     }
 }

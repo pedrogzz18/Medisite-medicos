@@ -4,6 +4,7 @@ import com.medisite.medicos.DTO.MedicoDTO;
 import com.medisite.medicos.repository.entity.EspecialidadEntity;
 import com.medisite.medicos.repository.entity.MedicoEntity;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -13,17 +14,17 @@ import java.util.List;
 public interface MedicosController {
 
     @PostMapping("/create-medico")
-    public MedicoDTO createMedico(@RequestBody MedicoEntity medico);
+    public ResponseEntity<?> createMedico(HttpServletRequest request, @RequestBody MedicoEntity medico);
 
     @PutMapping("/update-medico/{id}")
-    public MedicoDTO updateMedico(@PathVariable long id_medico, @RequestBody MedicoEntity medico);
+    public ResponseEntity<?> updateMedico(HttpServletRequest request, @PathVariable long id_medico, @RequestBody MedicoEntity medico);
 
     @DeleteMapping("/delete-medico/{id}")
-    public void deleteMedico(@PathVariable long id_medico);
+    public ResponseEntity<?> deleteMedico(HttpServletRequest request, @PathVariable long id_medico);
 
     @GetMapping("/get-medico/{id}")
-    public MedicoDTO getMedicoById(@PathVariable long id_medico);
+    public ResponseEntity<?> getMedicoById(HttpServletRequest request, @PathVariable long id_medico);
 
     @GetMapping("/get-all")
-    public List<MedicoDTO> getAllMedicos();
+    public ResponseEntity<?> getAllMedicos(HttpServletRequest request);
 }
