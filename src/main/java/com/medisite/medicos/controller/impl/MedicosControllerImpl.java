@@ -1,6 +1,7 @@
 package com.medisite.medicos.controller.impl;
 
 import com.medisite.medicos.DTO.MedicoDTO;
+import com.medisite.medicos.DTO.TimeRangeRequest;
 import com.medisite.medicos.controller.MedicosController;
 import com.medisite.medicos.repository.entity.MedicoEntity;
 import com.medisite.medicos.service.JwtService;
@@ -62,7 +63,10 @@ public class MedicosControllerImpl implements MedicosController {
     }
 
     @Override
-    public ResponseEntity<?> getAllMedicos(HttpServletRequest request){
+    public ResponseEntity<?> getMedicos(HttpServletRequest request,
+                                           @RequestParam(value = "id_especialidad", required = false) long id_especialidad,
+                                           @RequestParam(value = "id_ciudad", required = false) long id_ciudad,
+                                           @RequestBody(required = false) TimeRangeRequest time_range){
         String token = jwtService.getBearerToken(request);
         if(jwtService.isMedico(token)
                 || jwtService.isPaciente(token)
