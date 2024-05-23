@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 public class MedicosControllerImpl implements MedicosController {
     @Autowired
     private MedicoService medicoService;
     @Override
     public MedicoDTO createMedico(@RequestBody MedicoEntity medico){
-        MedicoDTO dto = new MedicoDTO();
-        dto.setEmail(medico.getEmail());
-        return dto;
+        return medicoService.createMedico(medico);
     }
 
     @Override

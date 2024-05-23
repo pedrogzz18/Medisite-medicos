@@ -3,6 +3,7 @@ package com.medisite.medicos.controller;
 import com.medisite.medicos.DTO.MedicoDTO;
 import com.medisite.medicos.repository.entity.EspecialidadEntity;
 import com.medisite.medicos.repository.entity.MedicoEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
