@@ -69,7 +69,14 @@ public class MedicoServiceImpl implements MedicoService {
     }
 
     public List<MedicoDTO> filterByDisponibilidad(List<MedicoDTO> medicos, LocalDateTime fecha_inicio, LocalDateTime fecha_fin){
-        return null;
+        List<MedicoEntity> medicoEntityList = medicoRepository.getMedicosByDispoibilidad(fecha_inicio, fecha_fin);
+        List<MedicoDTO> result = new ArrayList<MedicoDTO>();
+        for(MedicoEntity medicoEntity : medicoEntityList){
+            if (medicos.contains(MedicoEntityMapper.MedicoEntitytoMedicoDTO(medicoEntity))){
+                result.add(MedicoEntityMapper.MedicoEntitytoMedicoDTO(medicoEntity));
+            }
+        }
+        return result;
     }
 
 }
