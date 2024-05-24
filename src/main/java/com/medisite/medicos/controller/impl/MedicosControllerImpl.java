@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 public class MedicosControllerImpl implements MedicosController {
     @Autowired
     private MedicoService medicoService;
@@ -75,7 +76,7 @@ public class MedicosControllerImpl implements MedicosController {
             if(id_especialidad != null) medicos = medicoService.filterByEspecialidad(medicos, id_especialidad);
             if(id_ciudad != null) medicos = medicoService.filterByCiudad(medicos, id_ciudad);
             if(time_range != null) medicos = medicoService.filterByDisponibilidad(medicos, time_range.getTiempoInicio(), time_range.getTiempoFin());
-            return ResponseEntity.ok(medicoService.getAllMedicos());
+            return ResponseEntity.ok(medicos);
         }
         return ResponseEntity.status(403).body("not authorized");
     }

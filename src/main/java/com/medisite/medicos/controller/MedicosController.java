@@ -17,13 +17,13 @@ public interface MedicosController {
     @PostMapping("/create-medico")
     public ResponseEntity<?> createMedico(HttpServletRequest request, @RequestBody MedicoEntity medico);
 
-    @PutMapping("/update-medico/{id}")
+    @PutMapping("/update-medico/{id_medico}")
     public ResponseEntity<?> updateMedico(HttpServletRequest request, @PathVariable long id_medico, @RequestBody MedicoEntity medico);
 
-    @DeleteMapping("/delete-medico/{id}")
+    @DeleteMapping("/delete-medico/{id_medico}")
     public ResponseEntity<?> deleteMedico(HttpServletRequest request, @PathVariable long id_medico);
 
-    @GetMapping("/get-medico/{id}")
+    @GetMapping("/get-medico/{id_medico}")
     public ResponseEntity<?> getMedicoById(HttpServletRequest request, @PathVariable long id_medico);
 
     @GetMapping("/get-medicos")

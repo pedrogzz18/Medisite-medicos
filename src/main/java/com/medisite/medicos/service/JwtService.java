@@ -3,13 +3,18 @@ package com.medisite.medicos.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
+@Service
 public class JwtService {
     @Value("${security.jwt.secret-key}")
     private String secretKey;
@@ -35,13 +40,35 @@ public class JwtService {
         return Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
     }
 
-    private boolean isTokenExpired(String token){
+    public boolean isTokenExpired(String token){
         return extractExpirationDate(token).before(new Date());
+    }
+
+    public String generateToken(String username, String role, long id){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        claims.put("id", id);
+        return createToken(claims, username);
+    }
+
+    private String createToken(Map<String, Object> claims, String subject){
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    public boolean validateToken(String token, UserDetails userDetails){
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     public boolean validateIdInToken(String token, long id){
         Claims claims = extractAllClaims(token);
-        return (((Number) claims.get("id")).longValue() == (id));
+        return (((Number) claims.get("id")).longValue() == (id) && !isTokenExpired(token));
     }
 
     public boolean isPaciente(String token){
@@ -65,5 +92,9 @@ public class JwtService {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    public long getJwtExpiration(){
+        return jwtExpiration;
     }
 }
